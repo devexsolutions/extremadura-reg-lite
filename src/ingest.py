@@ -27,3 +27,10 @@ def parse_audios():
     result = model.transcribe(str(f))
     docs.append(Document(page_content=result["text"], metadata={"source": f.name}))
   return docs
+if name == "main":
+  all_docs = parse_pdfs() + parse_videos() + parse_audios()
+  # Guardamos temporalmente como txt para debug
+  Path("tmp").mkdir(exist_ok=True)
+  for i, d in enumerate(all_docs):
+    Path(f"tmp/doc_{i}.txt").write_text(d.page_content)
+    print(f"Extraídos {len(all_docs)} documentos.")
